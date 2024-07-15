@@ -60,30 +60,34 @@ class Main {
 
 class Solution
 {
-    private static void dfs(int node, boolean[] vis,Stack<Integer> st,ArrayList<ArrayList<Integer>> adj){
-        vis[node]=true;
-        for(Integer it:adj.get(node)){
-            if(vis[it]==false){
-                dfs(it,vis,st,adj);
-            }
-            
-        }
-        st.add(node);
-    }
-    //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
-        boolean[] vis= new boolean[V];
-        Stack<Integer> st = new Stack<Integer>();
+        int[] indegree = new int[V];
+        
         for(int i=0;i<V;i++){
-            if(vis[i]==false)
-                dfs(i,vis,st,adj);
+            for(Integer it: adj.get(i)){
+                indegree[it]++;
+            }
         }
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0;i<indegree.length;i++){
+            if(indegree[i]==0)
+                q.add(i);
+        }
+        
+        int[] topo = new int[V];
         int i=0;
-        int[] ans = new int[V];
-        while(!st.isEmpty()){
-            ans[i++]=st.pop();
+        while(!q.isEmpty()){
+            int node=q.peek();
+            q.remove();
+            topo[i++]=node;
+            
+            for(Integer it: adj.get(node)){
+                indegree[it]--;
+                if(indegree[it]==0)
+                    q.offer(it);
+            }
         }
-        return ans;
+        return topo;
     }
 }
