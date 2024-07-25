@@ -31,21 +31,32 @@ class GFG {
 }
 // } Driver Code Ends
 
-
+class Pair {
+    int node,parent;
+    Pair(int node, int parent){
+        this.node=node;
+        this.parent=parent;
+    }
+}
 
 class Solution {
     
-    private boolean dfs(int node, int parent, 
-    ArrayList<ArrayList<Integer>> adj,boolean[] vis){
-        
-        vis[node]=true;
-        for(Integer it: adj.get(node)){
-            if(vis[it]==false){
-                if(dfs(it,node,adj,vis)){
-                    return true;
+    private boolean bfs(int src,boolean[] vis, ArrayList<ArrayList<Integer>> adj){
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(src,-1));
+        vis[src]=true;
+        while(!q.isEmpty()){
+            int node = q.peek().node;
+            int parent = q.peek().parent;
+            q.remove();
+            for(Integer it: adj.get(node)){
+                if(!vis[it]){
+                    q.add(new Pair(it,node));
+                    vis[it]=true;
                 }
-            }else if(it!=parent)return true;
-            
+                else if(it!=parent)
+                    return true;
+            }
         }
         return false;
     }
@@ -54,11 +65,10 @@ class Solution {
         boolean[] vis = new boolean[V];
         for(int i=0;i<V;i++){
             if(vis[i]==false){
-                if(dfs(i,-1,adj,vis))
+                if(bfs(i,vis,adj)==true)
                     return true;
             }
         }
         return false;
-        
     }
 }
