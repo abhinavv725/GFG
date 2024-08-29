@@ -99,27 +99,21 @@ class GfG {
 
 
 class Solution {
-     int dfs(Node root,int[] ans){
-        if(ans[0]==0)return 0;
+    
+    int helper(Node root){
         if(root==null)return 0;
-        if(root.left==null && root.right==null)
+        if(root.left==null && root.right==null){
             return root.data;
-            
-        // else if(root.left==null || root.right== null)
-        //     return 0;
+        }
+        int x = helper(root.left);
+        int y = helper(root.right);
+        if(x==-1 || y==-1 || root.data!=x+y)return -1;
         
-        int x=dfs(root.left,ans);
-        int y=dfs(root.right,ans);
-        
-        if(root.data!=x+y)ans[0]=0;
-        
-        return root.data+x+y;
-        
+        return root.data*2;
         
     }
+    
     boolean isSumTree(Node root) {
-        int[] ans = {1};
-        dfs(root,ans);
-        return ans[0]==1;
+        return helper(root)!=-1;
     }
 }
