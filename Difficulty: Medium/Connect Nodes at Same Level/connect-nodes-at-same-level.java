@@ -132,32 +132,42 @@ class GfG {
     }
   
 }
+
+
 // } Driver Code Ends
 
 
-    
-class Solution
-{
-    //Function to connect nodes at same level.
-    public void connect(Node root)
-    {
+
+/*
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node nextRight;
+    Node(int data){
+        this.data = data;
+        left=null;
+        right=null;
+        nextRight = null;
+    }
+} */
+class Solution {
+    public void connect(Node root) {
         Queue<Node> q = new LinkedList<>();
         q.add(root);
-        while(q.size()!=0){
-            int space = q.size();
-            
-            for(int i=0;i<space;i++){
-                Node curr = q.poll();
-                if(i<space-1){
-                    Node t = q.peek();
-                    curr.nextRight = t;
-                }else{
-                    curr.nextRight=null;
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i=0;i<size;i++){
+                Node x = q.poll();
+                Node y = null;
+                if(i!=size-1){
+                    y=q.peek();
                 }
-                if(curr.left!=null)q.add(curr.left);
-                if(curr.right!=null)q.add(curr.right);
+                x.nextRight=y;
+                if(x.left!=null)q.add(x.left);
+                if(x.right!=null)q.add(x.right);
             }
-            
         }
+        
     }
 }
