@@ -26,60 +26,23 @@ class Geeks {
 
 
 class Solution {
-    private static int mem(int ind, int prev, int[] arr, int n, int[][] dp){
-        if(ind==n)return 0;
-        
-        int len = 0+ mem(ind+1, prev, arr, n,dp);
-        if(prev==-1 || arr[ind]> arr[prev]){
-            int take = 1+ mem(ind+1, ind, arr, n,dp);
-            len = Math.max(len, take);
-        }
-        return len;
-    }
-    // Function to find length of longest increasing subsequence.
-    static int tab(int arr[]) {
-        int n = arr.length;
-        int[][] dp = new int[n+1][n+1];
-        
-        for(int ind = n-1;ind>=0;ind--){
-            for(int prev = ind-1;prev>=-1;prev--){
-                
-                int len = 0+ dp[ind+1][prev+1];
-                if(prev==-1 || arr[ind]> arr[prev]){
-                    int take = 1+ dp[ind+1][ind+1];
-                    len = Math.max(len, take);
-                }
-                
-                dp[ind][prev+1]=len; 
-            }
-            
-        }
-        return dp[0][0];
-        
-    }
+ 
     static int longestSubsequence(int arr[]) {
         int n = arr.length;
-        int[] next = new int[n+1];
-        int[] curr = new int[n+1];
+        int[] dp = new int[n];
         
-        for(int ind = n-1;ind>=0;ind--){
-            for(int prev = ind-1;prev>=-1;prev--){
-                
-                int len = 0+ next[prev+1];
-                if(prev==-1 || arr[ind]> arr[prev]){
-                    int take = 1+ next[ind+1];
-                    len = Math.max(len, take);
+        Arrays.fill(dp, 1);
+        int ans=1;
+        for(int i=n-1;i>=0;i--){
+            for(int j=i+1;j<n;j++){
+                if(arr[i]<arr[j]){
+                    dp[i]=Math.max(dp[i], 1+dp[j]);
+                    ans=Math.max(ans, dp[i]);
                 }
                 
-                curr[prev+1]=len; 
             }
-            next=curr;
         }
-        return curr[0];
         
-        // for(int[] r : dp)
-        //     Arrays.fill(r, -1);
-        // return mem(0, -1, arr, n, dp);
-        // code here
+        return ans;
     }
 }
