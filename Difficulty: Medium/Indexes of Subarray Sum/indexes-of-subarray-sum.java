@@ -35,32 +35,29 @@ class Main {
 
 class Solution {
     static ArrayList<Integer> subarraySum(int[] arr, int target) {
-        int ans=0;
+        int sum=0;
         int st=0, end=0;
-        int n =arr.length;
+        int n=arr.length;
+        ArrayList<Integer> result = new ArrayList<Integer>();
         while(end<n){
-            ans+=arr[end];
-            if(ans==target){
-                 ArrayList<Integer> result = new ArrayList<>();
-                result.add(st + 1); // 1-based index
-                result.add(end + 1);
-                return result;
-            }
-            while(ans>target){
-                ans-=arr[st];
+            sum+=arr[end];
+            
+            while(sum>target && st<end){
+                sum-=arr[st];
                 st++;
-                if(ans==target){
-                     ArrayList<Integer> result = new ArrayList<>();
-                result.add(st + 1); // 1-based index
-                result.add(end + 1);
-                return result;
-                }
             }
-            end++;    
+            
+            
+            if(sum==target){
+                result.add(st+1);
+                result.add(end+1);
+                return result;
+            }
+            
+            end++;
             
         }
-         ArrayList<Integer> result = new ArrayList<>();
-                result.add(-1);
-                return result;
+        result.add(-1);
+        return result;
     }
 }
