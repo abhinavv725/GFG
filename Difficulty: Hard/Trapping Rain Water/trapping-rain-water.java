@@ -10,7 +10,7 @@ class Sorting {
             String[] str = (br.readLine()).trim().split(" ");
             int arr[] = new int[str.length];
             for (int i = 0; i < str.length; i++) arr[i] = Integer.parseInt(str[i]);
-            System.out.println(new Solution().trappingWater(arr));
+            System.out.println(new Solution().maxWater(arr));
             System.out.println("~");
         }
     }
@@ -19,26 +19,27 @@ class Sorting {
 
 
 class Solution {
-    public int trappingWater(int arr[]) {
+    public int maxWater(int arr[]) {
         int n = arr.length;
         
-        int[] leftArr = new int[n];
-        int[] rightArr = new int[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
         
-        leftArr[0]=arr[0];
+        left[0]=arr[0];
         for(int i=1;i<n;i++){
-            leftArr[i]=Math.max(leftArr[i-1],arr[i]);
+            left[i]=Math.max(arr[i], left[i-1]);
         }
-        
-        rightArr[n-1]=arr[n-1];
+        right[n-1]=arr[n-1];
         for(int i=n-2;i>=0;i--){
-            rightArr[i]=Math.max(rightArr[i+1],arr[i]);
+            right[i]=Math.max(arr[i], right[i+1]);
         }
         
         int ans=0;
+        
         for(int i=0;i<n;i++){
-            ans+=Math.min(leftArr[i],rightArr[i]) - arr[i];
+            ans+= Math.min(left[i], right[i])-arr[i];
         }
+        
         return ans;
     }
 }
